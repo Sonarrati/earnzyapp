@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - EARNZY</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #16a34a, #22c55e, #0ea5a4); }
+        .profile-section { transition: all 0.3s ease; }
+        .profile-section:hover { transform: translateY(-2px); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .tab-button.active { background: #16a34a; color: white; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <a href="dashboard.html" class="text-white">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                        <span class="text-green-600 font-bold text-sm">₹</span>
+                    </div>
+                    <span class="text-lg font-bold">My Profile</span>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <div class="bg-white/20 backdrop-blur-sm rounded-xl px-3 py-1">
+                        <div class="text-xs opacity-90">Balance</div>
+                        <div class="font-bold">₹<span id="userBalance">0.00</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Profile Header -->
+    <div class="gradient-bg text-white pt-8 pb-6">
+        <div class="container mx-auto px-4 text-center">
+            <!-- Profile Picture -->
+            <div class="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-white/30">
+                <i class="fas fa-user text-white text-2xl"></i>
+            </div>
+            
+            <!-- User Info -->
+            <h1 class="text-xl font-bold mb-1" id="userName">Loading...</h1>
+            <p class="opacity-90 mb-2" id="userMobile">+91 ••••••••••</p>
+            <div class="flex justify-center space-x-4 text-sm">
+                <div>
+                    <div class="font-semibold" id="userRank">Beginner</div>
+                    <div class="opacity-80">Rank</div>
+                </div>
+                <div>
+                    <div class="font-semibold" id="memberSince">2024</div>
+                    <div class="opacity-80">Member Since</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabs Navigation -->
+    <div class="bg-white border-b">
+        <div class="container mx-auto px-4">
+            <div class="flex overflow-x-auto">
+                <button class="tab-button flex-shrink-0 px-4 py-3 font-semibold text-gray-600 border-b-2 border-transparent active" data-tab="overview">
+                    Overview
+                </button>
+                <button class="tab-button flex-shrink-0 px-4 py-3 font-semibold text-gray-600 border-b-2 border-transparent" data-tab="transactions">
+                    Transactions
+                </button>
+                <button class="tab-button flex-shrink-0 px-4 py-3 font-semibold text-gray-600 border-b-2 border-transparent" data-tab="settings">
+                    Settings
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab Contents -->
+    <div class="container mx-auto px-4 py-6">
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="bg-white rounded-2xl p-4 shadow-lg border border-green-100 text-center">
+                    <div class="text-2xl font-bold text-green-600" id="totalEarned">₹0.00</div>
+                    <div class="text-sm text-gray-600">Total Earned</div>
+                </div>
+                <div class="bg-white rounded-2xl p-4 shadow-lg border border-blue-100 text-center">
+                    <div class="text-2xl font-bold text-blue-600" id="totalWithdrawn">₹0.00</div>
+                    <div class="text-sm text-gray-600">Total Withdrawn</div>
+                </div>
+                <div class="bg-white rounded-2xl p-4 shadow-lg border border-purple-100 text-center">
+                    <div class="text-2xl font-bold text-purple-600" id="tasksCompleted">0</div>
+                    <div class="text-sm text-gray-600">Tasks Done</div>
+                </div>
+                <div class="bg-white rounded-2xl p-4 shadow-lg border border-orange-100 text-center">
+                    <div class="text-2xl font-bold text-orange-600" id="referralsCount">0</div>
+                    <div class="text-sm text-gray-600">Referrals</div>
+                </div>
+            </div>
+
+            <!-- Current Plan -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 mb-6">
+                <h2 class="text-xl font-bold mb-4">Current Plan</h2>
+                <div class="flex justify-between items-center">
+                    <div>
+                        <div class="font-semibold text-gray-800" id="currentPlan">Free Plan</div>
+                        <div class="text-sm text-gray-600" id="planExpiry">Lifetime access</div>
+                    </div>
+                    <a href="subscriptions.html" class="bg-green-500 text-white px-4 py-2 rounded-xl font-semibold hover:bg-green-600 transition duration-300">
+                        Upgrade
+                    </a>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 mb-6">
+                <h2 class="text-xl font-bold mb-4">Quick Actions</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <a href="withdraw.html" class="bg-green-50 border border-green-200 rounded-xl p-4 text-center hover:bg-green-100 transition duration-300">
+                        <i class="fas fa-wallet text-green-600 text-xl mb-2"></i>
+                        <div class="font-semibold text-green-800">Withdraw</div>
+                    </a>
+                    <a href="referrals.html" class="bg-purple-50 border border-purple-200 rounded-xl p-4 text-center hover:bg-purple-100 transition duration-300">
+                        <i class="fas fa-users text-purple-600 text-xl mb-2"></i>
+                        <div class="font-semibold text-purple-800">Refer & Earn</div>
+                    </a>
+                    <a href="tasks.html" class="bg-blue-50 border border-blue-200 rounded-xl p-4 text-center hover:bg-blue-100 transition duration-300">
+                        <i class="fas fa-tasks text-blue-600 text-xl mb-2"></i>
+                        <div class="font-semibold text-blue-800">More Tasks</div>
+                    </a>
+                    <a href="subscriptions.html" class="bg-yellow-50 border border-yellow-200 rounded-xl p-4 text-center hover:bg-yellow-100 transition duration-300">
+                        <i class="fas fa-crown text-yellow-600 text-xl mb-2"></i>
+                        <div class="font-semibold text-yellow-800">Upgrade</div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Achievement Progress -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                <h2 class="text-xl font-bold mb-4">Your Progress</h2>
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex justify-between text-sm text-gray-600 mb-1">
+                            <span>Task Completion</span>
+                            <span id="taskProgressText">0/100</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div id="taskProgressBar" class="bg-green-500 h-2 rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-sm text-gray-600 mb-1">
+                            <span>Referral Milestone</span>
+                            <span id="referralProgressText">0/10</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div id="referralProgressBar" class="bg-purple-500 h-2 rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-sm text-gray-600 mb-1">
+                            <span>Withdrawal Level</span>
+                            <span id="withdrawalProgressText">₹0/₹1000</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div id="withdrawalProgressBar" class="bg-blue-500 h-2 rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transactions Tab -->
+        <div id="transactions" class="tab-content">
+            <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                <h2 class="text-xl font-bold mb-4">Transaction History</h2>
+                
+                <!-- Filter Buttons -->
+                <div class="flex space-x-2 mb-4 overflow-x-auto">
+                    <button class="transaction-filter bg-green-500 text-white px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" data-filter="all">
+                        All
+                    </button>
+                    <button class="transaction-filter bg-gray-200 text-gray-700 px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" data-filter="credit">
+                        Earnings
+                    </button>
+                    <button class="transaction-filter bg-gray-200 text-gray-700 px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" data-filter="debit">
+                        Withdrawals
+                    </button>
+                </div>
+
+                <!-- Transactions List -->
+                <div id="transactionsList" class="space-y-3">
+                    <div class="text-center py-8 text-gray-500">
+                        <i class="fas fa-receipt text-3xl mb-2"></i>
+                        <p>No transactions yet</p>
+                        <p class="text-sm mt-2">Your transaction history will appear here</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Tab -->
+        <div id="settings" class="tab-content">
+            <div class="space-y-6">
+                <!-- Account Settings -->
+                <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                    <h2 class="text-xl font-bold mb-4">Account Settings</h2>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-xl">
+                            <div>
+                                <div class="font-semibold">Mobile Number</div>
+                                <div class="text-sm text-gray-600" id="settingsMobile">+91 ••••••••••</div>
+                            </div>
+                            <button class="text-green-600 font-semibold">Verified</button>
+                        </div>
+                        
+                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-xl">
+                            <div>
+                                <div class="font-semibold">Email Address</div>
+                                <div class="text-sm text-gray-600">Not added</div>
+                            </div>
+                            <button class="text-blue-600 font-semibold">Add</button>
+                        </div>
+                        
+                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-xl">
+                            <div>
+                                <div class="font-semibold">KYC Verification</div>
+                                <div class="text-sm text-gray-600">Complete for higher limits</div>
+                            </div>
+                            <button class="bg-green-500 text-white px-3 py-1 rounded-lg text-sm font-semibold">Verify</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notification Settings -->
+                <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                    <h2 class="text-xl font-bold mb-4">Notifications</h2>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <div class="font-semibold">Task Notifications</div>
+                                <div class="text-sm text-gray-600">New task alerts</div>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" class="sr-only peer" checked>
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:ring-4 peer-focus:ring-green-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500"></div>
+                            </label>
+                        </div>
+                        
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <div class="font-semibold">Withdrawal Alerts</div>
+                                <div class="text-sm text-gray-600">Payment status updates</div>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" class="sr-only peer" checked>
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:ring-4 peer-focus:ring-green-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500"></div>
+                            </label>
+                        </div>
+                        
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <div class="font-semibold">Promotional Offers</div>
+                                <div class="text-sm text-gray-600">Special deals and bonuses</div>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:ring-4 peer-focus:ring-green-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500"></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security Settings -->
+                <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                    <h2 class="text-xl font-bold mb-4">Security</h2>
+                    <div class="space-y-3">
+                        <button class="w-full text-left p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition duration-300">
+                            <div class="font-semibold">Change PIN</div>
+                            <div class="text-sm text-gray-600">Set transaction PIN</div>
+                        </button>
+                        
+                        <button class="w-full text-left p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition duration-300">
+                            <div class="font-semibold">Login Activity</div>
+                            <div class="text-sm text-gray-600">Recent login sessions</div>
+                        </button>
+                        
+                        <button class="w-full text-left p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition duration-300">
+                            <div class="font-semibold">Connected Devices</div>
+                            <div class="text-sm text-gray-600">Manage device access</div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Support & Legal -->
+                <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                    <h2 class="text-xl font-bold mb-4">Support & Legal</h2>
+                    <div class="space-y-3">
+                        <button class="w-full text-left p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition duration-300">
+                            <div class="font-semibold">Help & Support</div>
+                            <div class="text-sm text-gray-600">Get help with your account</div>
+                        </button>
+                        
+                        <button class="w-full text-left p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition duration-300">
+                            <div class="font-semibold">Terms of Service</div>
+                            <div class="text-sm text-gray-600">Platform rules and guidelines</div>
+                        </button>
+                        
+                        <button class="w-full text-left p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition duration-300">
+                            <div class="font-semibold">Privacy Policy</div>
+                            <div class="text-sm text-gray-600">Data protection information</div>
+                        </button>
+                        
+                        <button class="w-full text-left p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition duration-300">
+                            <div class="font-semibold">Contact Us</div>
+                            <div class="text-sm text-gray-600">Reach out to our team</div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Danger Zone -->
+                <div class="bg-white rounded-2xl p-6 shadow-lg border border-red-200">
+                    <h2 class="text-xl font-bold mb-4 text-red-700">Danger Zone</h2>
+                    <div class="space-y-3">
+                        <button class="w-full text-left p-3 bg-red-50 rounded-xl hover:bg-red-100 transition duration-300 text-red-700">
+                            <div class="font-semibold">Clear Data</div>
+                            <div class="text-sm">Reset your activity data</div>
+                        </button>
+                        
+                        <button id="logoutBtn" class="w-full text-left p-3 bg-red-50 rounded-xl hover:bg-red-100 transition duration-300 text-red-700">
+                            <div class="font-semibold">Logout</div>
+                            <div class="text-sm">Sign out from your account</div>
+                        </button>
+                        
+                        <button class="w-full text-left p-3 bg-red-50 rounded-xl hover:bg-red-100 transition duration-300 text-red-700">
+                            <div class="font-semibold">Delete Account</div>
+                            <div class="text-sm">Permanently delete your account</div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bg-white border-t fixed bottom-0 left-0 right-0 lg:hidden">
+        <div class="grid grid-cols-5">
+            <a href="dashboard.html" class="flex flex-col items-center py-3 text-gray-600">
+                <i class="fas fa-home mb-1"></i>
+                <span class="text-xs">Home</span>
+            </a>
+            <a href="tasks.html" class="flex flex-col items-center py-3 text-gray-600">
+                <i class="fas fa-tasks mb-1"></i>
+                <span class="text-xs">Tasks</span>
+            </a>
+            <a href="watch-ads.html" class="flex flex-col items-center py-3 text-gray-600">
+                <i class="fas fa-play-circle mb-1"></i>
+                <span class="text-xs">Watch</span>
+            </a>
+            <a href="withdraw.html" class="flex flex-col items-center py-3 text-gray-600">
+                <i class="fas fa-wallet mb-1"></i>
+                <span class="text-xs">Withdraw</span>
+            </a>
+            <a href="profile.html" class="flex flex-col items-center py-3 text-green-600">
+                <i class="fas fa-user mb-1"></i>
+                <span class="text-xs">Profile</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Scripts -->
+    <script type="module" src="js/firebase-init.js"></script>
+    <script type="module" src="js/profile.js"></script>
+</body>
+</html>
