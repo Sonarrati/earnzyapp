@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scratch Card - EARNZY</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #16a34a, #22c55e, #0ea5a4); }
+        .scratch-card { 
+            position: relative;
+            background: linear-gradient(45deg, #ff6b6b, #ffa726, #ffeb3b, #4caf50, #2196f3, #9c27b0);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        .scratch-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #8b5cf6;
+            cursor: pointer;
+            touch-action: none;
+        }
+        .scratch-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .reward-amount {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <a href="dashboard.html" class="text-white">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                        <span class="text-green-600 font-bold text-sm">₹</span>
+                    </div>
+                    <span class="text-lg font-bold">Scratch Card</span>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <div class="bg-white/20 backdrop-blur-sm rounded-xl px-3 py-1">
+                        <div class="text-xs opacity-90">Balance</div>
+                        <div class="font-bold">₹<span id="userBalance">0.00</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-6">
+        <!-- Scratch Card Container -->
+        <div class="bg-white rounded-2xl p-6 shadow-lg border border-purple-100 mb-6 text-center">
+            <h1 class="text-2xl font-bold text-gray-800 mb-2">Scratch & Win!</h1>
+            <p class="text-gray-600 mb-6">Scratch the card below to reveal your daily reward</p>
+            
+            <!-- Scratch Card -->
+            <div class="scratch-card mx-auto mb-6 relative" style="max-width: 300px; height: 200px;">
+                <!-- Reward Display (Hidden initially) -->
+                <div id="rewardDisplay" class="w-full h-full flex flex-col items-center justify-center text-white hidden">
+                    <i class="fas fa-gift text-4xl mb-2"></i>
+                    <div class="reward-amount" id="rewardAmount">₹0.00</div>
+                    <p class="text-white/90">Congratulations!</p>
+                </div>
+                
+                <!-- Scratch Overlay -->
+                <div id="scratchOverlay" class="scratch-overlay flex flex-col items-center justify-center">
+                    <i class="fas fa-hand-pointer text-white text-3xl mb-2"></i>
+                    <p class="text-white font-semibold">Scratch Here</p>
+                    <p class="text-white/80 text-sm mt-1">Use your finger to scratch</p>
+                </div>
+                
+                <!-- Canvas for scratching -->
+                <canvas id="scratchCanvas" class="scratch-canvas"></canvas>
+            </div>
+
+            <!-- Scratch Info -->
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="bg-gray-50 rounded-xl p-3">
+                    <div class="text-sm text-gray-600">Cards Today</div>
+                    <div class="font-bold text-green-600"><span id="cardsScratched">0</span>/<span id="maxCards">1</span></div>
+                </div>
+                <div class="bg-gray-50 rounded-xl p-3">
+                    <div class="text-sm text-gray-600">Reward Range</div>
+                    <div class="font-bold text-purple-600">₹0.10 - ₹0.50</div>
+                </div>
+            </div>
+
+            <button id="scratchBtn" class="w-full bg-purple-500 text-white py-4 rounded-xl font-semibold text-lg hover:bg-purple-600 transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed mb-4">
+                <i class="fas fa-play mr-2"></i>
+                <span id="scratchText">Start Scratching</span>
+            </button>
+
+            <div class="text-sm text-gray-600">
+                <i class="fas fa-sync-alt mr-1"></i>
+                Resets daily at midnight
+            </div>
+        </div>
+
+        <!-- Scratch History -->
+        <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+            <h2 class="text-xl font-bold mb-4">Recent Scratches</h2>
+            <div id="scratchHistory" class="space-y-3">
+                <div class="text-center py-4 text-gray-500">
+                    <i class="fas fa-history text-2xl mb-2"></i>
+                    <p>No scratch history yet</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scratch Tips -->
+        <div class="bg-yellow-50 border border-yellow-200 rounded-2xl p-4 mt-6">
+            <div class="flex items-start">
+                <i class="fas fa-lightbulb text-yellow-500 text-lg mt-1 mr-3"></i>
+                <div>
+                    <h3 class="font-semibold text-yellow-800 mb-2">Did You Know?</h3>
+                    <ul class="text-yellow-700 text-sm space-y-1">
+                        <li>• Premium plans get more scratch cards per day</li>
+                        <li>• Gold: 3 cards, Platinum: Unlimited cards</li>
+                        <li>• Higher chances of bigger rewards with premium</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-2xl w-full max-w-sm text-center p-6">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-gift text-green-500 text-2xl"></i>
+            </div>
+            
+            <h3 class="text-xl font-semibold mb-2">Congratulations! 🎉</h3>
+            <p class="text-gray-600 mb-4">You won</p>
+            <div class="reward-amount text-green-600 mb-4" id="modalReward">₹0.00</div>
+            
+            <div class="bg-green-50 rounded-xl p-3 mb-4">
+                <div class="text-sm text-green-800">
+                    Amount has been added to your balance
+                </div>
+            </div>
+            
+            <button id="closeSuccess" class="w-full gradient-bg text-white py-3 rounded-xl font-semibold hover:opacity-90 transition duration-300">
+                Awesome!
+            </button>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bg-white border-t fixed bottom-0 left-0 right-0 lg:hidden">
+        <div class="grid grid-cols-5">
+            <a href="dashboard.html" class="flex flex-col items-center py-3 text-gray-600">
+                <i class="fas fa-home mb-1"></i>
+                <span class="text-xs">Home</span>
+            </a>
+            <a href="tasks.html" class="flex flex-col items-center py-3 text-gray-600">
+                <i class="fas fa-tasks mb-1"></i>
+                <span class="text-xs">Tasks</span>
+            </a>
+            <a href="watch-ads.html" class="flex flex-col items-center py-3 text-gray-600">
+                <i class="fas fa-play-circle mb-1"></i>
+                <span class="text-xs">Watch</span>
+            </a>
+            <a href="scratch-card.html" class="flex flex-col items-center py-3 text-green-600">
+                <i class="fas fa-ticket-alt mb-1"></i>
+                <span class="text-xs">Scratch</span>
+            </a>
+            <a href="profile.html" class="flex flex-col items-center py-3 text-gray-600">
+                <i class="fas fa-user mb-1"></i>
+                <span class="text-xs">Profile</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Scripts -->
+    <script type="module" src="js/firebase-init.js"></script>
+    <script type="module" src="js/scratch-card.js"></script>
+</body>
+</html>
