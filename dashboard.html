@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - EARNZY</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #16a34a, #22c55e, #0ea5a4); }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-2px); }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                        <span class="text-green-600 font-bold">₹</span>
+                    </div>
+                    <span class="text-xl font-bold">EARNZY</span>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <!-- Balance -->
+                    <div class="bg-white/20 backdrop-blur-sm rounded-xl px-4 py-2">
+                        <div class="text-sm opacity-90">Balance</div>
+                        <div class="font-bold text-lg">₹<span id="userBalance">0.00</span></div>
+                    </div>
+                    
+                    <!-- Profile -->
+                    <div class="relative group">
+                        <button class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition duration-300">
+                            <i class="fas fa-user text-white"></i>
+                        </button>
+                        <div class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg py-2 hidden group-hover:block z-50">
+                            <a href="profile.html" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">
+                                <i class="fas fa-user mr-2"></i>Profile
+                            </a>
+                            <a href="subscriptions.html" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">
+                                <i class="fas fa-crown mr-2"></i>Upgrade Plan
+                            </a>
+                            <hr class="my-1">
+                            <button id="logoutBtn" class="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100">
+                                <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Quick Stats -->
+    <section class="bg-white border-b">
+        <div class="container mx-auto px-4 py-4">
+            <div class="grid grid-cols-4 gap-4 text-center">
+                <div>
+                    <div class="text-sm text-gray-600">Today's Earnings</div>
+                    <div class="font-bold text-green-600">₹<span id="todayEarnings">0.00</span></div>
+                </div>
+                <div>
+                    <div class="text-sm text-gray-600">Total Earned</div>
+                    <div class="font-bold text-gray-800">₹<span id="totalEarned">0.00</span></div>
+                </div>
+                <div>
+                    <div class="text-sm text-gray-600">Streak</div>
+                    <div class="font-bold text-orange-500"><span id="streakDays">0</span> days</div>
+                </div>
+                <div>
+                    <div class="text-sm text-gray-600">Referrals</div>
+                    <div class="font-bold text-blue-500"><span id="referralCount">0</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Dashboard -->
+    <div class="container mx-auto px-4 py-6">
+        <!-- Welcome & Quick Actions -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Welcome Card -->
+            <div class="bg-gradient-to-r from-green-500 to-cyan-500 rounded-2xl p-6 text-white lg:col-span-2">
+                <h2 class="text-2xl font-bold mb-2">Welcome, <span id="userName">User</span>! 👋</h2>
+                <p class="opacity-90 mb-4">Complete your first task today and unlock bonus rewards!</p>
+                <div class="flex space-x-3">
+                    <a href="tasks.html" class="bg-white text-green-600 px-4 py-2 rounded-xl font-semibold hover:bg-gray-100 transition duration-300">
+                        Start Earning
+                    </a>
+                    <a href="withdraw.html" class="border-2 border-white text-white px-4 py-2 rounded-xl font-semibold hover:bg-white/20 transition duration-300">
+                        Withdraw
+                    </a>
+                </div>
+            </div>
+
+            <!-- Daily Check-in -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg border border-green-100">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold">Daily Check-in</h3>
+                    <div class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-sm font-semibold">
+                        Day <span id="currentStreak">0</span>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm mb-4">Check in daily to maintain your streak and earn bonuses!</p>
+                <button id="checkinBtn" class="w-full gradient-bg text-white py-3 rounded-xl font-semibold hover:opacity-90 transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <i class="fas fa-calendar-check mr-2"></i>Check In Today
+                </button>
+                <div class="text-center mt-3 text-sm text-gray-500">
+                    +₹<span id="checkinReward">0.20</span> today
+                </div>
+            </div>
+        </div>
+
+        <!-- Earning Modules Grid -->
+        <h2 class="text-2xl font-bold mb-6">Start Earning Now</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Task & Earn -->
+            <a href="tasks.html" class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 card-hover group">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition duration-300">
+                        <span class="text-white text-xl">📝</span>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold">Task & Earn</h3>
+                        <p class="text-green-600 font-bold">₹0.50 - ₹5 per task</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm mb-4">Complete simple tasks and earn instant rewards</p>
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-gray-500"><span id="tasksCompleted">0</span>/10 today</span>
+                    <span class="text-green-600 font-semibold">Start →</span>
+                </div>
+            </a>
+
+            <!-- Watch & Earn -->
+            <a href="watch-ads.html" class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 card-hover group">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition duration-300">
+                        <span class="text-white text-xl">📺</span>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold">Watch & Earn</h3>
+                        <p class="text-green-600 font-bold">₹0.05 - ₹0.15 per ad</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm mb-4">Watch short video ads and get paid instantly</p>
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-gray-500"><span id="adsWatched">0</span>/10 today</span>
+                    <span class="text-green-600 font-semibold">Watch →</span>
+                </div>
+            </a>
+
+            <!-- Scratch & Win -->
+            <a href="scratch-card.html" class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 card-hover group">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition duration-300">
+                        <span class="text-white text-xl">🎫</span>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold">Scratch & Win</h3>
+                        <p class="text-green-600 font-bold">₹0.10 - ₹0.50 per card</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm mb-4">Scratch cards daily to reveal surprise rewards</p>
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-gray-500"><span id="scratchAvailable">1</span> left today</span>
+                    <span class="text-green-600 font-semibold">Scratch →</span>
+                </div>
+            </a>
+
+            <!-- Treasure Box -->
+            <a href="treasure-box.html" class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 card-hover group">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition duration-300">
+                        <span class="text-white text-xl">🎁</span>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold">Treasure Box</h3>
+                        <p class="text-green-600 font-bold">₹1 - ₹3 bonus</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm mb-4">Unlock after completing tasks or watching ads</p>
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-gray-500" id="treasureStatus">3 tasks needed</span>
+                    <span class="text-green-600 font-semibold">Open →</span>
+                </div>
+            </a>
+
+            <!-- Referral Program -->
+            <a href="referrals.html" class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 card-hover group">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition duration-300">
+                        <span class="text-white text-xl">👥</span>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold">Refer & Earn</h3>
+                        <p class="text-green-600 font-bold">₹2 + ₹1 per referral</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm mb-4">Invite friends and earn unlimited rewards</p>
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-gray-500"><span id="totalReferrals">0</span> friends joined</span>
+                    <span class="text-green-600 font-semibold">Invite →</span>
+                </div>
+            </a>
+
+            <!-- Withdraw Money -->
+            <a href="withdraw.html" class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 card-hover group">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition duration-300">
+                        <span class="text-white text-xl">💳</span>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold">Withdraw Money</h3>
+                        <p class="text-green-600 font-bold">Instant UPI payments</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm mb-4">Withdraw your earnings instantly to bank/UPI</p>
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-gray-500">Min. ₹25</span>
+                    <span class="text-green-600 font-semibold">Withdraw →</span>
+                </div>
+            </a>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+            <h3 class="text-lg font-semibold mb-4">Recent Activity</h3>
+            <div id="recentActivity" class="space-y-3">
+                <!-- Activity items will be loaded here -->
+                <div class="text-center py-8 text-gray-500">
+                    <i class="fas fa-history text-3xl mb-2"></i>
+                    <p>No recent activity</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bg-white border-t fixed bottom-0 left-0 right-0 lg:hidden">
+        <div class="grid grid-cols-5">
+            <a href="dashboard.html" class="flex flex-col items-center py-3 text-green-600">
+                <i class="fas fa-home mb-1"></i>
+                <span class="text-xs">Home</span>
+            </a>
+            <a href="tasks.html" class="flex flex-col items-center py-3 text-gray-600">
+                <i class="fas fa-tasks mb-1"></i>
+                <span class="text-xs">Tasks</span>
+            </a>
+            <a href="watch-ads.html" class="flex flex-col items-center py-3 text-gray-600">
+                <i class="fas fa-play-circle mb-1"></i>
+                <span class="text-xs">Watch</span>
+            </a>
+            <a href="referrals.html" class="flex flex-col items-center py-3 text-gray-600">
+                <i class="fas fa-users mb-1"></i>
+                <span class="text-xs">Refer</span>
+            </a>
+            <a href="profile.html" class="flex flex-col items-center py-3 text-gray-600">
+                <i class="fas fa-user mb-1"></i>
+                <span class="text-xs">Profile</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Scripts -->
+    <script type="module" src="js/firebase-init.js"></script>
+    <script type="module" src="js/dashboard.js"></script>
+</body>
+</html>
