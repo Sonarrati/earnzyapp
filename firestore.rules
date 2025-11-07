@@ -1,0 +1,93 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users can read/write their own data
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow read, write: if request.auth != null && exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Admin users have full access to admin collections
+    match /admin/{document} {
+      allow read, write: if request.auth != null && exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Settings - only admins can access
+    match /settings/{document} {
+      allow read, write: if request.auth != null && exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Tasks - users can read active tasks, admins have full access
+    match /tasks/{taskId} {
+      allow read: if resource.data.status == 'active';
+      allow read, write: if request.auth != null && exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Ads - users can read active ads, admins have full access
+    match /ads/{adId} {
+      allow read: if resource.data.status == 'active';
+      allow read, write: if request.auth != null && exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Transactions - users can only access their own transactions
+    match /transactions/{transactionId} {
+      allow read, write: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow read, write: if request.auth != null && exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Withdrawals - users can create and read their own withdrawals
+    match /withdrawals/{withdrawalId} {
+      allow create: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow read: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow read, write: if request.auth != null && exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Referrals - users can read their own referrals
+    match /referrals/{referralId} {
+      allow read: if request.auth != null && (request.auth.uid == resource.data.referrerId || request.auth.uid == resource.data.referredId);
+      allow create: if request.auth != null;
+      allow read, write: if request.auth != null && exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Subscriptions - users can read their own subscriptions
+    match /subscriptions/{subscriptionId} {
+      allow read: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow create: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow read, write: if request.auth != null && exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Checkins, scratches, treasures - users can access their own
+    match /checkins/{checkinId} {
+      allow read, write: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow read, write: if request.auth != null && exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    match /scratches/{scratchId} {
+      allow read, write: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow read, write: if request.auth != null && exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    match /treasures/{treasureId} {
+      allow read, write: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow read, write: if request.auth != null && exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Fraud logs - only admins can access
+    match /fraud_logs/{logId} {
+      allow read, write: if request.auth != null && exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+  }
+}
