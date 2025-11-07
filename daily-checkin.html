@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Check-in - EARNZY</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #16a34a, #22c55e, #0ea5a4); }
+        .streak-day { transition: all 0.3s ease; }
+        .streak-day.completed { background: linear-gradient(135deg, #16a34a, #22c55e); }
+        .streak-day.current { border-color: #f59e0b; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <a href="dashboard.html" class="text-white">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                        <span class="text-green-600 font-bold text-sm">₹</span>
+                    </div>
+                    <span class="text-lg font-bold">Daily Check-in</span>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <div class="bg-white/20 backdrop-blur-sm rounded-xl px-3 py-1">
+                        <div class="text-xs opacity-90">Balance</div>
+                        <div class="font-bold">₹<span id="userBalance">0.00</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-6">
+        <!-- Streak Overview -->
+        <div class="bg-white rounded-2xl p-6 shadow-lg border border-green-100 mb-6 text-center">
+            <div class="w-20 h-20 gradient-bg rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-fire text-white text-2xl"></i>
+            </div>
+            <h1 class="text-2xl font-bold text-gray-800 mb-2">Daily Check-in</h1>
+            <p class="text-gray-600 mb-4">Check in daily to maintain your streak and earn bonuses!</p>
+            
+            <div class="grid grid-cols-3 gap-4 mb-6">
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-green-600" id="currentStreak">0</div>
+                    <div class="text-sm text-gray-600">Current Streak</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-blue-600" id="longestStreak">0</div>
+                    <div class="text-sm text-gray-600">Longest Streak</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-purple-600" id="totalCheckins">0</div>
+                    <div class="text-sm text-gray-600">Total Check-ins</div>
+                </div>
+            </div>
+
+            <button id="checkinBtn" class="w-full gradient-bg text-white py-4 rounded-xl font-semibold text-lg hover:opacity-90 transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed mb-4">
+                <i class="fas fa-calendar-check mr-2"></i>
+                <span id="checkinText">Check In Today</span>
+            </button>
+
+            <div id="todaysReward" class="bg-green-50 border border-green-200 rounded-xl p-3">
+                <div class="flex justify-between items-center">
+                    <span class="text-green-800 font-semibold">Today's Reward:</span>
+                    <span class="text-green-600 font-bold">₹<span id="rewardAmount">0.20</span></span>
+                </div>
+                <div id="bonusInfo" class="text-green-700 text-sm mt-1 text-left"></div>
+            </div>
+        </div>
+
+        <!-- Streak Calendar -->
+        <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 mb-6">
+            <h2 class="text-xl font-bold mb-4">7-Day Streak Calendar</h2>
+            <div class="calendar-grid mb-4">
+                <!-- Days will be populated by JavaScript -->
+            </div>
+            <div class="text-center text-sm text-gray-600">
+                Complete 7-day streak for special bonus!
+            </div>
+        </div>
+
+        <!-- Streak Rewards -->
+        <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+            <h2 class="text-xl font-bold mb-4">Streak Rewards</h2>
+            <div class="space-y-3">
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mr-3">
+                            <span class="text-green-600 font-bold text-sm">1</span>
+                        </div>
+                        <span>Day 1</span>
+                    </div>
+                    <span class="text-green-600 font-bold">₹0.20</span>
+                </div>
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mr-3">
+                            <span class="text-green-600 font-bold text-sm">3</span>
+                        </div>
+                        <span>Day 3</span>
+                    </div>
+                    <span class="text-green-600 font-bold">₹0.50</span>
+                </div>
+                <div class="flex items-center justify-between p-3 bg-yellow-50 rounded-xl">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center mr-3">
+                            <span class="text-yellow-600 font-bold text-sm">7</span>
+                        </div>
+                        <span>Day 7</span>
+                    </div>
+                    <span class="text-yellow-600 font-bold">₹1.00</span>
+                </div>
+                <div class="flex items-center justify-between p-3 bg-purple-50 rounded-xl">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center mr-3">
+                            <span class="text-purple-600 font-bold text-sm">30</span>
+                        </div>
+                        <span>Day 30</span>
+                    </div>
+                    <span class="text-purple-600 font-bold">₹5.00</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Check-in History -->
+        <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 mt-6">
+            <h2 class="text-xl font-bold mb-4">Recent Check-ins</h2>
+            <div id="checkinHistory" class="space-y-3">
+                <div class="text-center py-4 text-gray-500">
+                    <i class="fas fa-history text-2xl mb-2"></i>
+                    <p>No check-in history yet</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bg-white border-t fixed bottom-0 left-0 right-0 lg:hidden">
+        <div class="grid grid-cols-5">
+            <a href="dashboard.html" class="flex flex-col items-center py-3 text-gray-600">
+                <i class="fas fa-home mb-1"></i>
+                <span class="text-xs">Home</span>
+            </a>
+            <a href="tasks.html" class="flex flex-col items-center py-3 text-gray-600">
+                <i class="fas fa-tasks mb-1"></i>
+                <span class="text-xs">Tasks</span>
+            </a>
+            <a href="watch-ads.html" class="flex flex-col items-center py-3 text-gray-600">
+                <i class="fas fa-play-circle mb-1"></i>
+                <span class="text-xs">Watch</span>
+            </a>
+            <a href="daily-checkin.html" class="flex flex-col items-center py-3 text-green-600">
+                <i class="fas fa-calendar-day mb-1"></i>
+                <span class="text-xs">Check-in</span>
+            </a>
+            <a href="profile.html" class="flex flex-col items-center py-3 text-gray-600">
+                <i class="fas fa-user mb-1"></i>
+                <span class="text-xs">Profile</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-2xl w-full max-w-sm text-center p-6">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-check text-green-500 text-2xl"></i>
+            </div>
+            
+            <h3 class="text-xl font-semibold mb-2">Check-in Successful! 🎉</h3>
+            <p class="text-gray-600 mb-4">You've earned <span class="text-green-600 font-bold">₹<span id="successReward">0.20</span></span> today!</p>
+            
+            <div class="bg-green-50 rounded-xl p-3 mb-4">
+                <div class="text-sm text-green-800">
+                    <div>Streak: <span id="successStreak" class="font-bold">1 day</span></div>
+                    <div>Next reward: <span id="nextReward" class="font-bold">₹0.30</span></div>
+                </div>
+            </div>
+            
+            <button id="closeSuccess" class="w-full gradient-bg text-white py-3 rounded-xl font-semibold hover:opacity-90 transition duration-300">
+                Continue
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="js/firebase-init.js"></script>
+    <script type="module" src="js/daily-checkin.js"></script>
+</body>
+</html>
