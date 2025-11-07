@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refer & Earn - EARNZY</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #16a34a, #22c55e, #0ea5a4); }
+        .referral-card { transition: all 0.3s ease; }
+        .referral-card:hover { transform: translateY(-2px); }
+        .referral-code {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <a href="dashboard.html" class="text-white">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                        <span class="text-green-600 font-bold text-sm">₹</span>
+                    </div>
+                    <span class="text-lg font-bold">Refer & Earn</span>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <div class="bg-white/20 backdrop-blur-sm rounded-xl px-3 py-1">
+                        <div class="text-xs opacity-90">Balance</div>
+                        <div class="font-bold">₹<span id="userBalance">0.00</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-6">
+        <!-- Referral Stats -->
+        <div class="grid grid-cols-3 gap-4 mb-6">
+            <div class="bg-white rounded-2xl p-4 text-center shadow-lg border border-green-100">
+                <div class="text-2xl font-bold text-green-600" id="totalReferrals">0</div>
+                <div class="text-sm text-gray-600">Total Referrals</div>
+            </div>
+            <div class="bg-white rounded-2xl p-4 text-center shadow-lg border border-blue-100">
+                <div class="text-2xl font-bold text-blue-600" id="referralEarnings">0.00</div>
+                <div class="text-sm text-gray-600">Total Earnings</div>
+            </div>
+            <div class="bg-white rounded-2xl p-4 text-center shadow-lg border border-purple-100">
+                <div class="text-2xl font-bold text-purple-600" id="pendingBonus">0.00</div>
+                <div class="text-sm text-gray-600">Pending Bonus</div>
+            </div>
+        </div>
+
+        <!-- Referral Program Card -->
+        <div class="bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl p-6 text-white mb-6">
+            <div class="text-center mb-6">
+                <i class="fas fa-users text-4xl mb-4"></i>
+                <h1 class="text-2xl font-bold mb-2">Invite Friends & Earn Money</h1>
+                <p class="opacity-90">Get ₹2 for each friend + ₹1 when they complete first task!</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="bg-white/20 backdrop-blur-sm rounded-xl p-4 text-center">
+                    <div class="text-2xl font-bold">₹2</div>
+                    <div class="text-sm opacity-90">On Signup</div>
+                </div>
+                <div class="bg-white/20 backdrop-blur-sm rounded-xl p-4 text-center">
+                    <div class="text-2xl font-bold">₹1</div>
+                    <div class="text-sm opacity-90">First Task</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Referral Code -->
+        <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 mb-6">
+            <h2 class="text-xl font-bold mb-4">Your Referral Code</h2>
+            <div class="referral-code rounded-xl p-4 text-center mb-4">
+                <div class="text-sm opacity-90 mb-2">Share this code with friends</div>
+                <div class="text-2xl font-bold mb-4" id="referralCode">LOADING...</div>
+                <button id="copyCode" class="bg-white text-purple-600 px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition duration-300">
+                    <i class="fas fa-copy mr-2"></i>Copy Code
+                </button>
+            </div>
+            
+            <div class="text-center text-sm text-gray-600">
+                Friend enters this code during signup
+            </div>
+        </div>
+
+        <!-- Share Options -->
+        <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 mb-6">
+            <h2 class="text-xl font-bold mb-4">Share via</h2>
+            <div class="grid grid-cols-4 gap-3">
+                <button class="share-btn bg-green-500 text-white p-3 rounded-xl hover:bg-green-600 transition duration-300" data-app="whatsapp">
+                    <i class="fab fa-whatsapp text-2xl mb-1"></i>
+                    <div class="text-xs">WhatsApp</div>
+                </button>
+                <button class="share-btn bg-blue-500 text-white p-3 rounded-xl hover:bg-blue-600 transition duration-300" data-app="telegram">
+                    <i class="fab fa-telegram text-2xl mb-1"></i>
+                    <div class="text-xs">Telegram</div>
+                </button>
+                <button class="share-btn bg-gray-800 text-white p-3 rounded-xl hover:bg-gray-900 transition duration-300" data-app="sms">
+                    <i class="fas fa-sms text-2xl mb-1"></i>
+                    <div class="text-xs">SMS</div>
+                </button>
+                <button class="share-btn bg-red-500 text-white p-3 rounded-xl hover:bg-red-600 transition duration-300" data-app="other">
+                    <i class="fas fa-share-alt text-2xl mb-1"></i>
+                    <div class="text-xs">Other</div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Referral Link -->
+        <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 mb-6">
+            <h2 class="text-xl font-bold mb-4">Your Referral Link</h2>
+            <div class="flex space-x-2 mb-3">
+                <input type="text" id="referralLink" class="flex-1 border-2 border-gray-200 rounded-xl px-4 py-3 bg-gray-50" readonly>
+                <button id="copyLink" class="bg-green-500 text-white px-4 py-3 rounded-xl font-semibold hover:bg-green-600 transition duration-300">
+                    <i class="fas fa-copy"></i>
+                </button>
+            </div>
+            <p class="text-sm text-gray-600">Share this link directly with friends</p>
+        </div>
+
+        <!-- Referral History -->
+        <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+            <h2 class="text-xl font-bold mb-4">Referral History</h2>
+            <div id="referralHistory" class="space-y-3">
+                <div class="text-center py-8 text-gray-500">
+                    <i class="fas fa-users text-3xl mb-2"></i>
+                    <p>No referrals yet</p>
+                    <p class="text-sm mt-2">Start sharing your code to see referrals here</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Referral Tips -->
+        <div class="bg-blue-50 border border-blue-200 rounded-2xl p-4 mt-6">
+            <div class="flex items-start">
+                <i class="fas fa-rocket text-blue-500 text-lg mt-1 mr-3"></i>
+                <div>
+                    <h3 class="font-semibold text-blue-800 mb-2">Maximize Your Earnings</h3>
+                    <ul class="text-blue-700 text-sm space-y-1">
+                        <li>• Share on social media platforms</li>
+                        <li>• Send to friends and family via WhatsApp</li>
+                        <li>• Post in relevant online communities</li>
+                        <li>• Premium plans give higher referral bonuses</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bg-white border-t fixed bottom-0 left-0 right-0 lg:hidden">
+        <div class="grid grid-cols-5">
+            <a href="dashboard.html" class="flex flex-col items-center py-3 text-gray-600">
+                <i class="fas fa-home mb-1"></i>
+                <span class="text-xs">Home</span>
+            </a>
+            <a href="tasks.html" class="flex flex-col items-center py-3 text-gray-600">
+                <i class="fas fa-tasks mb-1"></i>
+                <span class="text-xs">Tasks</span>
+            </a>
+            <a href="watch-ads.html" class="flex flex-col items-center py-3 text-gray-600">
+                <i class="fas fa-play-circle mb-1"></i>
+                <span class="text-xs">Watch</span>
+            </a>
+            <a href="referrals.html" class="flex flex-col items-center py-3 text-green-600">
+                <i class="fas fa-users mb-1"></i>
+                <span class="text-xs">Refer</span>
+            </a>
+            <a href="profile.html" class="flex flex-col items-center py-3 text-gray-600">
+                <i class="fas fa-user mb-1"></i>
+                <span class="text-xs">Profile</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Success Toast -->
+    <div id="successToast" class="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-xl shadow-lg z-50 hidden">
+        <i class="fas fa-check-circle mr-2"></i>
+        <span id="toastMessage">Copied to clipboard!</span>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="js/firebase-init.js"></script>
+    <script type="module" src="js/referrals.js"></script>
+</body>
+</html>
