@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks - EARNZY</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #16a34a, #22c55e, #0ea5a4); }
+        .task-card { transition: all 0.3s ease; }
+        .task-card:hover { transform: translateY(-2px); }
+        .progress-bar { transition: width 0.5s ease-in-out; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <a href="dashboard.html" class="text-white">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                        <span class="text-green-600 font-bold text-sm">₹</span>
+                    </div>
+                    <span class="text-lg font-bold">Tasks</span>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <div class="bg-white/20 backdrop-blur-sm rounded-xl px-3 py-1">
+                        <div class="text-xs opacity-90">Balance</div>
+                        <div class="font-bold">₹<span id="userBalance">0.00</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Progress Stats -->
+    <section class="bg-white border-b">
+        <div class="container mx-auto px-4 py-4">
+            <div class="grid grid-cols-3 gap-4 text-center">
+                <div>
+                    <div class="text-sm text-gray-600">Completed</div>
+                    <div class="font-bold text-green-600"><span id="tasksCompleted">0</span>/10</div>
+                </div>
+                <div>
+                    <div class="text-sm text-gray-600">Today's Earnings</div>
+                    <div class="font-bold text-gray-800">₹<span id="todayEarnings">0.00</span></div>
+                </div>
+                <div>
+                    <div class="text-sm text-gray-600">Bonus Progress</div>
+                    <div class="font-bold text-blue-500" id="bonusProgress">0/3</div>
+                </div>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="mt-4">
+                <div class="flex justify-between text-sm text-gray-600 mb-1">
+                    <span>Daily Progress</span>
+                    <span><span id="progressCount">0</span>/10 tasks</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div id="progressBar" class="gradient-bg h-2 rounded-full progress-bar" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tasks Container -->
+    <div class="container mx-auto px-4 py-6">
+        <!-- Available Tasks -->
+        <div class="mb-8">
+            <h2 class="text-xl font-bold mb-4">Available Tasks</h2>
+            <div id="tasksList" class="space-y-4">
+                <!-- Tasks will be loaded here -->
+                <div class="text-center py-8">
+                    <div class="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-tasks text-gray-400 text-2xl"></i>
+                    </div>
+                    <p class="text-gray-500">Loading tasks...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Completed Tasks -->
+        <div class="mb-8">
+            <h2 class="text-xl font-bold mb-4">Completed Today</h2>
+            <div id="completedTasks" class="space-y-3">
+                <div class="text-center py-4 text-gray-500">
+                    <p>No tasks completed yet today</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Task Tips -->
+        <div class="bg-blue-50 border border-blue-200 rounded-2xl p-4">
+            <div class="flex items-start">
+                <i class="fas fa-lightbulb text-blue-500 text-lg mt-1 mr-3"></i>
+                <div>
+                    <h3 class="font-semibold text-blue-800 mb-2">Pro Tips</h3>
+                    <ul class="text-blue-700 text-sm space-y-1">
+                        <li>• Complete 3 tasks to unlock Treasure Box</li>
+                        <li>• Higher subscription plans give bonus rewards</li>
+                        <li>• Check back daily for new tasks</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bg-white border-t fixed bottom-0 left-0 right-0 lg:hidden">
+        <div class="grid grid-cols-5">
+            <a href="dashboard.html" class="flex flex-col items-center py-3 text-gray-600">
+                <i class="fas fa-home mb-1"></i>
+                <span class="text-xs">Home</span>
+            </a>
+            <a href="tasks.html" class="flex flex-col items-center py-3 text-green-600">
+                <i class="fas fa-tasks mb-1"></i>
+                <span class="text-xs">Tasks</span>
+            </a>
+            <a href="watch-ads.html" class="flex flex-col items-center py-3 text-gray-600">
+                <i class="fas fa-play-circle mb-1"></i>
+                <span class="text-xs">Watch</span>
+            </a>
+            <a href="referrals.html" class="flex flex-col items-center py-3 text-gray-600">
+                <i class="fas fa-users mb-1"></i>
+                <span class="text-xs">Refer</span>
+            </a>
+            <a href="profile.html" class="flex flex-col items-center py-3 text-gray-600">
+                <i class="fas fa-user mb-1"></i>
+                <span class="text-xs">Profile</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Task Modal -->
+    <div id="taskModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-2xl w-full max-w-md">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 id="modalTaskTitle" class="text-xl font-semibold">Task Title</h3>
+                    <button id="closeModal" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="mb-4">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-gray-600">Reward:</span>
+                        <span id="modalTaskReward" class="text-green-600 font-bold">₹0.00</span>
+                    </div>
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-gray-600">Time:</span>
+                        <span id="modalTaskTime" class="text-gray-800">0 seconds</span>
+                    </div>
+                </div>
+
+                <div id="modalTaskDescription" class="bg-gray-50 rounded-xl p-4 mb-4 text-sm text-gray-700">
+                    Task description will appear here...
+                </div>
+
+                <div id="modalTaskInstructions" class="mb-4 text-sm text-gray-600">
+                    <!-- Instructions will be loaded here -->
+                </div>
+
+                <div class="flex space-x-3">
+                    <button id="startTask" class="flex-1 gradient-bg text-white py-3 rounded-xl font-semibold hover:opacity-90 transition duration-300">
+                        Start Task
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Task Timer Modal -->
+    <div id="timerModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-2xl w-full max-w-sm text-center p-6">
+            <div class="w-20 h-20 gradient-bg rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-clock text-white text-2xl"></i>
+            </div>
+            
+            <h3 class="text-xl font-semibold mb-2">Task in Progress</h3>
+            <p class="text-gray-600 mb-4" id="timerTaskTitle">Please wait while we verify your task...</p>
+            
+            <div class="mb-6">
+                <div id="timerCircle" class="w-24 h-24 border-4 border-green-500 rounded-full flex items-center justify-center mx-auto relative">
+                    <span id="timerCount" class="text-2xl font-bold text-gray-800">30</span>
+                </div>
+            </div>
+
+            <button id="cancelTask" class="w-full border-2 border-gray-300 text-gray-700 py-3 rounded-xl font-semibold hover:bg-gray-50 transition duration-300">
+                Cancel Task
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="js/firebase-init.js"></script>
+    <script type="module" src="js/tasks.js"></script>
+</body>
+</html>
