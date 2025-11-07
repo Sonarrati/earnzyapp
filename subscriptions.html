@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upgrade Plan - EARNZY</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #16a34a, #22c55e, #0ea5a4); }
+        .plan-card { transition: all 0.3s ease; }
+        .plan-card:hover { transform: translateY(-5px); }
+        .popular-plan {
+            border: 3px solid #f59e0b;
+            position: relative;
+            transform: scale(1.05);
+        }
+        .popular-badge {
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background: #f59e0b;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <a href="dashboard.html" class="text-white">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                        <span class="text-green-600 font-bold text-sm">₹</span>
+                    </div>
+                    <span class="text-lg font-bold">Upgrade Plan</span>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <div class="bg-white/20 backdrop-blur-sm rounded-xl px-3 py-1">
+                        <div class="text-xs opacity-90">Balance</div>
+                        <div class="font-bold">₹<span id="userBalance">0.00</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-6">
+        <!-- Current Plan -->
+        <div class="bg-white rounded-2xl p-6 shadow-lg border border-green-200 mb-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h2 class="text-xl font-bold text-gray-800">Your Current Plan</h2>
+                    <p class="text-gray-600" id="currentPlanText">Free Plan</p>
+                </div>
+                <div class="text-right">
+                    <div class="text-2xl font-bold text-green-600" id="currentPlanPrice">₹0</div>
+                    <div class="text-sm text-gray-600" id="currentPlanDuration">Lifetime</div>
+                </div>
+            </div>
+            
+            <div id="planExpiry" class="mt-4 p-3 bg-green-50 rounded-xl hidden">
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-green-800">Plan expires in:</span>
+                    <span class="font-semibold text-green-800" id="expiryDays">0 days</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upgrade Plans -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold text-center mb-2">Choose Your Plan</h2>
+            <p class="text-gray-600 text-center mb-6">Upgrade to earn more with bonus rewards</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                <!-- Silver Plan -->
+                <div class="plan-card bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-200">
+                    <div class="text-center mb-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">SILVER</h3>
+                        <div class="text-3xl font-bold text-gray-800">₹99</div>
+                        <div class="text-gray-600">30 Days</div>
+                    </div>
+                    
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>+20% Task Bonus</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>+10% Ad Bonus</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>2 Scratch Cards/Day</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>+10% Check-in Bonus</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>₹2.5 Referral Bonus</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>12-24h Withdrawal</span>
+                        </li>
+                    </ul>
+                    
+                    <button class="w-full bg-gray-200 text-gray-800 py-3 rounded-xl font-semibold hover:bg-gray-300 transition duration-300 upgrade-btn" data-plan="silver" data-amount="99">
+                        Upgrade Now
+                    </button>
+                </div>
+
+                <!-- Gold Plan (Popular) -->
+                <div class="plan-card bg-white rounded-2xl p-6 shadow-lg popular-plan">
+                    <div class="popular-badge">MOST POPULAR</div>
+                    <div class="text-center mb-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">GOLD</h3>
+                        <div class="text-3xl font-bold text-gray-800">₹199</div>
+                        <div class="text-gray-600">30 Days</div>
+                    </div>
+                    
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>+30% Task Bonus</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>+20% Ad Bonus</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>3 Scratch Cards/Day</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>+20% Check-in Bonus</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>₹3 Referral Bonus</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Instant Withdrawal</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Chat Support</span>
+                        </li>
+                    </ul>
+                    
+                    <button class="w-full gradient-bg text-white py-3 rounded-xl font-semibold hover:opacity-90 transition duration-300 upgrade-btn" data-plan="gold" data-amount="199">
+                        Upgrade Now
+                    </button>
+                </div>
+
+                <!-- Platinum Plan -->
+                <div class="plan-card bg-white rounded-2xl p-6 shadow-lg border-2 border-purple-200">
+                    <div class="text-center mb-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">PLATINUM</h3>
+                        <div class="text-3xl font-bold text-gray-800">₹499</div>
+                        <div class="text-gray-600">30 Days</div>
+                    </div>
+                    
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>+50% Task Bonus</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>+30% Ad Bonus</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Unlimited Scratch Cards</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>+30% Check-in Bonus</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>₹5 Referral Bonus</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Instant Withdrawal</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>VIP Chat Support</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Ad-Free Experience</span>
+                        </li>
+                    </ul>
+                    
+                    <button class="w-full bg-purple-500 text-white py-3 rounded-xl font-semibold hover:bg-purple-600 transition duration-300 upgrade-btn" data-plan="platinum" data-amount="499">
+                        Upgrade Now
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Plan Comparison -->
+        <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 mb-6">
+            <h2 class="text-xl font-bold mb-4">Plan Comparison</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b-2 border-gray-200">
+                            <th class="text-left py-3">Feature</th>
+                            <th class="text-center py-3">Free</th>
+                            <th class="text-center py-3">Silver</th>
+                            <th class="text-center py-3">Gold</th>
+                            <th class="text-center py-3">Platinum</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-gray-100">
+                            <td class="py-3 font-semibold">Task Bonus</td>
+                            <td class="text-center py-3">-</td>
+                            <td class="text-center py-3 text-green-600 font-semibold">+20%</td>
+                            <td class="text-center py-3 text-green-600 font-semibold">+30%</td>
+                            <td class="text-center py-3 text-green-600 font-semibold">+50%</td>
+                        </tr>
+                        <tr class="border-b border-gray-100">
+                            <td class="py-3 font-semibold">Ad Bonus</td>
+                            <td class="text-center py-3">-</td>
+                            <td class="text-center py-3 text-green-600 font-semibold">+10%</td>
+                            <td class="text-center py-3 text-green-600 font-semibold">+20%</td>
+                            <td class="text-center py-3 text-green-600 font-semibold">+30%</td>
+                        </tr>
+                        <tr class="border-b border-gray-100">
+                            <td class="py-3 font-semibold">Scratch Cards/Day</td>
+                            <td class="text-center py-3">1</td>
+                            <td class="text-center py-3 text-green-600 font-semibold">2</td>
+                            <td class="text-center py-3 text-green-600 font-semibold">3</td>
+                            <td class="text-center py-3 text-green-600 font-semibold">Unlimited</td>
+                        </tr>
+                        <tr class="border-b border-gray-100">
+                            <td class="py-3 font-semibold">Withdrawal Speed</td>
+                            <td class="text-center py-3">24-48h</td>
+                            <td class="text-center py-3 text-green-600 font-semibold">12-24h</td>
+                            <td class="text-center py-3 text-green-600 font-semibold">Instant</td>
+                            <td class="text-center py-3 text-green-600 font-semibold">Instant</td>
+                        </tr>
+                        <tr class="border-b border-gray-100">
+                            <td class="py-3 font-semibold">Withdrawal Fee</td>
+                            <td class="text-center py-3">₹2</td>
+                            <td class="text-center py-3 text-green-600 font-semibold">₹1</td>
+                            <td class="text-center py-3 text-green-600 font-semibold">₹0</td>
+                            <td class="text-center py-3 text-green-600 font-semibold">₹0</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 font-semibold">Referral Bonus</td>
+                            <td class="text-center py-3">₹2</td>
+                            <td class="text-center py-3 text-green-600 font-semibold">₹2.5</td>
+                            <td class="text-center py-3 text-green-600 font-semibold">₹3</td>
+                            <td class="text-center py-3 text-green-600 font-semibold">₹5</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+            <h2 class="text-xl font-bold mb-4">Frequently Asked Questions</h2>
+            <div class="space-y-4">
+                <div>
+                    <h3 class="font-semibold text-gray-800 mb-2">How do I upgrade my plan?</h3>
+                    <p class="text-gray-600 text-sm">Click on any plan's "Upgrade Now" button and complete the payment process. Your plan will be activated immediately.</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-gray-800 mb-2">Can I cancel my subscription?</h3>
+                    <p class="text-gray-600 text-sm">Yes, you can cancel auto-renewal anytime. Your plan will remain active until the end of the billing period.</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-gray-800 mb-2">What payment methods are accepted?</h3>
+                    <p class="text-gray-600 text-sm">We accept UPI, Credit/Debit Cards, Net Banking, and all major payment methods through Razorpay.</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-gray-800 mb-2">Is there a refund policy?</h3>
+                    <p class="text-gray-600 text-sm">We offer a 7-day refund policy if you're not satisfied with the premium features.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-2xl w-full max-w-md">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-semibold">Upgrade Plan</h3>
+                    <button id="closePaymentModal" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-crown text-white text-2xl"></i>
+                    </div>
+                    <h4 id="selectedPlan" class="text-lg font-semibold mb-2">Gold Plan</h4>
+                    <div class="text-2xl font-bold text-green-600" id="selectedAmount">₹199</div>
+                    <div class="text-gray-600">30 Days</div>
+                </div>
+
+                <div class="bg-gray-50 rounded-xl p-4 mb-6">
+                    <h5 class="font-semibold mb-2">Plan Benefits:</h5>
+                    <ul id="planBenefits" class="text-sm text-gray-700 space-y-1">
+                        <!-- Benefits will be loaded here -->
+                    </ul>
+                </div>
+
+                <div class="space-y-3">
+                    <button id="razorpayBtn" class="w-full bg-blue-500 text-white py-3 rounded-xl font-semibold hover:bg-blue-600 transition duration-300">
+                        <i class="fas fa-credit-card mr-2"></i>Pay with Razorpay
+                    </button>
+                    <button id="upiBtn" class="w-full bg-green-500 text-white py-3 rounded-xl font-semibold hover:bg-green-600 transition duration-300">
+                        <i class="fas fa-mobile-alt mr-2"></i>UPI Payment
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bg-white border-t fixed bottom-0 left-0 right-0 lg:hidden">
+        <div class="grid grid-cols-5">
+            <a href="dashboard.html" class="flex flex-col items-center py-3 text-gray-600">
+                <i class="fas fa-home mb-1"></i>
+                <span class="text-xs">Home</span>
+            </a>
+            <a href="tasks.html" class="flex flex-col items-center py-3 text-gray-600">
+                <i class="fas fa-tasks mb-1"></i>
+                <span class="text-xs">Tasks</span>
+            </a>
+            <a href="watch-ads.html" class="flex flex-col items-center py-3 text-gray-600">
+                <i class="fas fa-play-circle mb-1"></i>
+                <span class="text-xs">Watch</span>
+            </a>
+            <a href="subscriptions.html" class="flex flex-col items-center py-3 text-green-600">
+                <i class="fas fa-crown mb-1"></i>
+                <span class="text-xs">Upgrade</span>
+            </a>
+            <a href="profile.html" class="flex flex-col items-center py-3 text-gray-600">
+                <i class="fas fa-user mb-1"></i>
+                <span class="text-xs">Profile</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Scripts -->
+    <script type="module" src="js/firebase-init.js"></script>
+    <script type="module" src="js/subscriptions.js"></script>
+    <!-- Razorpay Integration -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</body>
+</html>
